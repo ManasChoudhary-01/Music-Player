@@ -62,7 +62,6 @@ const musicData = [
         imgSrc: "assets/image/img10.jpg",
         audioSrc: "assets/song/song10.m4a"
     },
-
 ];
 
 let currentIndex = 0;
@@ -155,11 +154,22 @@ function displayCard(index) {
     song.onpause = function () {
         imageContainer.classList.remove('rotating');
     };
+
+    song.onended = function () {
+        showNext(true);
+    };
 }
 
-function showNext() {
+function showNext(autoPlay = false) {
     currentIndex = (currentIndex + 1) % musicData.length;
     displayCard(currentIndex);
+    if (autoPlay) {
+        const song = document.getElementById(`song-${currentIndex}`);
+        const ctrlIcon = document.getElementById(`ctrlIcon-${currentIndex}`);
+        song.play();
+        ctrlIcon.classList.add("fa-pause");
+        ctrlIcon.classList.remove("fa-play");
+    }
 }
 
 function showPrevious() {
